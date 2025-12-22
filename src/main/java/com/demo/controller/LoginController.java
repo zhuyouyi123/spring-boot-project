@@ -2,8 +2,8 @@ package com.demo.controller;
 
 import com.demo.common.pojo.dto.login.LoginDTO;
 import com.demo.common.pojo.vo.login.LoginCaptchaVO;
-import com.demo.service.login.LoginService;
-import com.dev.holder.pojo.vo.RespVO;
+import com.demo.service.LoginService;
+import com.dev.common.pojo.vo.RespVO;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

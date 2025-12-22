@@ -1,6 +1,6 @@
 package com.demo.common.pojo.dto.login;
 
-import com.dev.holder.pojo.dto.BaseDTO;
+import com.dev.common.pojo.dto.BaseDTO;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,9 +20,4 @@ public class LoginDTO extends BaseDTO {
 
     @NotBlank(message = "验证码uuid不能为空")
     private String uuid;
-
-    @Override
-    public void validate() {
-        super.validate();
-    }
 }

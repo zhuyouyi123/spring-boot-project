@@ -1,19 +1,23 @@
-package com.demo.service.login.impl;
+package com.demo.service.impl;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.codec.Base64;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.demo.common.cache.VerificationCodeCache;
 import com.demo.common.enums.errors.LoginError;
+import com.demo.common.pojo.dataobject.ManagerDO;
 import com.demo.common.pojo.dto.login.LoginDTO;
 import com.demo.common.pojo.vo.login.LoginCaptchaVO;
+import com.demo.common.utils.SmCryptoUtil;
 import com.demo.mapper.ManagerMapper;
-import com.demo.service.login.LoginService;
+import com.demo.service.LoginService;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -27,7 +31,19 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void doLogin(LoginDTO dto) {
-        checkCode(dto.getCode(), dto.getUuid());
+         checkCode(dto.getCode(), dto.getUuid());
+        ManagerDO managerDO = managerMapper.selectOne(new LambdaQueryWrapper<ManagerDO>()
+                .eq(ManagerDO::getUsername, dto.getUsername()));
+
+        if (managerDO == null) {
+            throw LoginError.USER_NOT_EXIST.build();
+        }
+
+        if (!Objects.equals(SmCryptoUtil.sm2Decrypt(managerDO.getPassword()), SmCryptoUtil.sm2Decrypt(dto.getPassword()))) {
+            throw LoginError.LOGIN_FAILED.build();
+        }
+
+        generateToken();
     }
 
     /**
@@ -53,6 +69,12 @@ public class LoginServiceImpl implements LoginService {
                 .captcha(captcha.getCode())
                 .captchaImage((base64))
                 .build();
+    }
+
+    /**
+     * 生成token
+     */
+    private void generateToken() {
     }
 
 

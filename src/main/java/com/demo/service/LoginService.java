@@ -1,4 +1,4 @@
-package com.demo.service.login;
+package com.demo.service;
 
 import com.demo.common.pojo.dto.login.LoginDTO;
 import com.demo.common.pojo.vo.login.LoginCaptchaVO;
