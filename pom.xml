@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 核心：引入 Spring Boot 父工程，自动管理所有依赖版本 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!-- 使用 Spring Boot 3.3.11（稳定版，兼容 JDK 17） -->
+        <version>3.3.11</version>
+        <relativePath/> <!-- 从Maven仓库获取，不使用本地路径 -->
+    </parent>
+
+    <groupId>com.demo</groupId>
+    <artifactId>springboot-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>SpringBoot Demo</name>
+    <description>Spring Boot + MyBatis-Plus Demo Project</description>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 统一第三方依赖版本 -->
+        <spring-boot.version>3.3.11</spring-boot.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
+        <lombok.version>1.18.38</lombok.version>
+        <fastjson2.version>2.0.34</fastjson2.version>
+
+        <development.version>1.0-SNAPSHOT</development.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.development</groupId>
+            <artifactId>dev-common</artifactId>
+            <version>${development.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.development</groupId>
+            <artifactId>dev-constants</artifactId>
+            <version>${development.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.development</groupId>
+            <artifactId>dev-context</artifactId>
+            <version>${development.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.development</groupId>
+            <artifactId>dev-db-starter</artifactId>
+            <version>${development.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.development</groupId>
+            <artifactId>dev-mybatis</artifactId>
+            <version>${development.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.development</groupId>
+            <artifactId>dev-web</artifactId>
+            <version>${development.version}</version>
+        </dependency>
+
+        <!-- Spring Boot Web 核心依赖（含内嵌Tomcat、Spring MVC、Jackson等） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- MyBatis-Plus 启动器（自动整合 MyBatis + Spring Boot） -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+            <!-- 排除冲突的 SLF4J 依赖（若有） -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis-spring</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 显式引入兼容 Spring 6 的 mybatis-spring 3.0.3 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+
+        <!-- Lombok（简化实体类代码） -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional> <!-- 打包时不传递依赖 -->
+        </dependency>
+
+        <!-- MySQL 驱动（Spring Boot 3.x 推荐使用 mysql-connector-j） -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope> <!-- 运行时依赖，编译时不需要 -->
+        </dependency>
+
+        <!-- FastJSON2（若需要JSON解析，替换原错误的 fastjson 依赖） -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
+        </dependency>
+
+        <!-- Spring Boot 测试依赖（可选，测试时使用） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Hutool核心包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.22</version>
+        </dependency>
+        <!-- 国密算法依赖（BouncyCastle） -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.70</version>
+        </dependency>
+
+        <!-- Spring AOP 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <scope>compile</scope>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.1.8</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Spring Boot 打包插件（可将项目打包为可执行JAR） -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version> <!-- 继承父工程的版本 -->
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!-- 必须添加，否则打包后的JAR无法运行 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
