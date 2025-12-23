@@ -119,16 +119,15 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, ManagerDO> im
 
     @Override
     public void deleteById(Long id) {
-//        ManagerDO managerDO = managerMapper.selectById(id);
-//        if (Objects.isNull(managerDO)) {
-//            return;
-//        }
-//        if (managerDO.getRole() == ManagerRoleEnum.ADMIN.getCode()) {
-//            throw ManagerError.DELETE_ADMIN_NOT_ALLOWED.build();
-//        }
-//        managerMapper.deleteById(id);
+        ManagerDO managerDO = managerMapper.selectById(id);
+        if (Objects.isNull(managerDO)) {
+            return;
+        }
+        if (managerDO.getRole() == ManagerRoleEnum.ADMIN.getCode()) {
+            throw ManagerError.DELETE_ADMIN_NOT_ALLOWED.build();
+        }
+        managerMapper.deleteById(id);
 
-       generateTestPerson();
     }
 
 
